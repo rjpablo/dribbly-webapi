@@ -12,7 +12,8 @@ namespace DribblyWebAPI.Controllers
     {
         public string Upload()
         {
-            string uploadPath = System.Web.Hosting.HostingEnvironment.MapPath("~/images/uploads/courts");
+            string uploadPath = "D:/RJ/Projects/dribbly-test/www/images/uploads/courts/";
+            string uploadedFilePath = "";
 
             System.Web.HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
 
@@ -27,14 +28,15 @@ namespace DribblyWebAPI.Controllers
 
                     if (currentFile.ContentLength > 0)
                     {
-                        currentFile.SaveAs(uploadPath + Path.GetFileName(currentFile.FileName));
+                        uploadedFilePath = uploadPath + Path.GetFileName(currentFile.FileName);
+                        currentFile.SaveAs(uploadedFilePath);
                         uploadCount++;
 
                     }
 
                 }
 
-                return uploadCount + " files uploaded successfully!";
+                return uploadedFilePath;
             }
             catch (Exception ex)
             {
