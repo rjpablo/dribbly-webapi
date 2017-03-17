@@ -29,5 +29,8 @@ namespace DribblyWebAPI.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<DribblyWebAPI.Models.Game> Games { get; set; }
+        public System.Data.Entity.DbSet<DribblyWebAPI.Models.Court> Courts { get; set; }
     }
 }
