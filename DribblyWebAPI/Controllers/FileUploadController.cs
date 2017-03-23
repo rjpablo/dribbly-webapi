@@ -4,13 +4,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web;
 using System.IO;
+using System.Web.Configuration;
 
 namespace DribblyWebAPI.Controllers
 {
     public class FileController : ApiController
     {
-        private string uploadPath = "D:/RJ/Projects/dribbly-test/www/images/uploads/courts/";
+        //private string uploadPath = "D:/RJ/Projects/dribbly-test/www/images/uploads/courts/";
+        private string uploadPath;
+
+        public FileController()
+        {
+            uploadPath = HttpContext.Current.Server.MapPath("~/" + WebConfigurationManager.AppSettings["imageUploadPath"]);
+        }
 
         [Route("api/file/upload")]
         public IHttpActionResult Upload()
@@ -20,43 +28,38 @@ namespace DribblyWebAPI.Controllers
 
             System.Web.HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
 
-            try
+            if(files.Count > 0)
             {
-                string ext = System.IO.Path.GetExtension(files[0].FileName);
-                string uploadedFileName;
-
-                do
+                try
                 {
-                    uploadedFileName = DateTime.Now.ToString("yyyyMMddHHmmssfffffff") + ext;
-                    uploadedFilePath = uploadPath + uploadedFileName;
-                } while (File.Exists(uploadedFilePath));
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
 
-                
-                files[0].SaveAs(uploadedFilePath);
+                    string ext = System.IO.Path.GetExtension(files[0].FileName);
+                    string uploadedFileName;
 
-                return Ok(uploadedFileName);
+                    do
+                    {
+                        uploadedFileName = DateTime.Now.ToString("yyyyMMddHHmmssfffffff") + ext;
+                        uploadedFilePath = uploadPath + uploadedFileName;
+                    } while (File.Exists(uploadedFilePath));
 
-                // int uploadCount = 0;
+                    files[0].SaveAs(uploadedFilePath);
 
-                //for (int i = 0; i < files.Count; i++)
-                //{
+                    return Ok(uploadedFileName);
 
-                //    System.Web.HttpPostedFile currentFile = files[i];
-
-                //    if (currentFile.ContentLength > 0)
-                //    {
-                //        uploadedFilePath = uploadPath + Path.GetFileName(currentFile.FileName);
-                //        currentFile.SaveAs(uploadedFilePath);
-                //        uploadCount++;
-
-                //    }
-
-                //}
+                }
+                catch (Exception ex)
+                {
+                    return InternalServerError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return InternalServerError(ex);
-            }
+                return BadRequest("No files to upload.");
+            }            
             
         }
 

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DribblyWebAPI.Models;
+using System.Web.Configuration;
 
 namespace DribblyWebAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace DribblyWebAPI.Controllers
         public IHttpActionResult GetCourts()
         {
             var games = new List<Court>();
+            string imageUploadPath = WebConfigurationManager.AppSettings["imageUploadPath"];
 
             games.Add(new Court(){
                 id =1,
@@ -25,7 +27,7 @@ namespace DribblyWebAPI.Controllers
                 address ="#123 Kanto St. Sampaloc Manila",
                 contactNo ="0923-765-9876",
                 rate =100.00,
-                imagePath="images/sample images/courts/1.jpg"
+                imagePath= "1.jpg"
             });
 
             games.Add(new Court()
@@ -36,7 +38,7 @@ namespace DribblyWebAPI.Controllers
                 address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
                 contactNo = "0923-765-9876",
                 rate = 100.00,
-                imagePath = "images/sample images/courts/2.jpg"
+                imagePath = "2.jpg"
             });
 
             games.Add(new Court()
@@ -47,7 +49,7 @@ namespace DribblyWebAPI.Controllers
                 address = "#12 Don Juan St. Brgy. Palanan, Makati City, Metro Manila",
                 contactNo = "0923-765-9854",
                 rate = 100.00,
-                imagePath = "images/sample images/courts/3.jpg"
+                imagePath = "3.jpg"
             });
 
             games.Add(new Court()
@@ -58,7 +60,7 @@ namespace DribblyWebAPI.Controllers
                 address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
                 contactNo = "0923-765-9876",
                 rate = 100.00,
-                imagePath = "images/sample images/courts/4.jpg"
+                imagePath = "4.jpg"
             });
 
             games.Add(new Court()
@@ -69,7 +71,7 @@ namespace DribblyWebAPI.Controllers
                 address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
                 contactNo = "0923-765-9876",
                 rate = 100.00,
-                imagePath = "images/sample images/courts/5.jpg"
+                imagePath = "5.jpg"
             });
 
             return Ok(games);
