@@ -6,14 +6,14 @@ using System.Web;
 
 namespace DribblyWebAPI.Models
 {
-    public class DribblyDbContext: DbContext
-    {
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
-        }
+    //public class DribblyDbContext: DbContext
+    //{
+    //    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    //    {
+    //        this.Configuration.LazyLoadingEnabled = false;
+    //        this.Configuration.ProxyCreationEnabled = false;
+    //    }
 
-        public DbSet<Court> courts { get; set; }
-    }
+    //    public DbSet<Court> courts { get; set; }
+    //}
 }

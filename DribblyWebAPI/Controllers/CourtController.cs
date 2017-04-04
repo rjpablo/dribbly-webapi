@@ -25,9 +25,9 @@ namespace DribblyWebAPI.Controllers
         {
             try
             {
-                DribblyDbContext DbContext = new DribblyDbContext();
+                ApplicationDbContext DbContext = new ApplicationDbContext();
 
-                DbContext.courts.Add(CourtDetails);
+                DbContext.Courts.Add(CourtDetails);
 
                 DbContext.SaveChanges();
 
@@ -43,8 +43,11 @@ namespace DribblyWebAPI.Controllers
         [Route("getCourtWithPhotos/{courtId:int?}")]
         public IHttpActionResult GetCourtsWithPhotos(int courtId = -1)
         {
-            using (DribblyDbContext DbContext = new DribblyDbContext())
+            using (ApplicationDbContext DbContext = new ApplicationDbContext())
             {
+                DbContext.Configuration.LazyLoadingEnabled = false;
+                DbContext.Configuration.ProxyCreationEnabled = false;
+
                 DbContext.Configuration.LazyLoadingEnabled = false;
                 DbContext.Configuration.ProxyCreationEnabled = false;
 
@@ -52,7 +55,7 @@ namespace DribblyWebAPI.Controllers
                 {
                     try
                     {
-                        Court court = DbContext.courts.Include(c => c.photos).Single(c => c.id == courtId);
+                        Court court = DbContext.Courts.Include(c => c.photos).Single(c => c.id == courtId);
                         return Ok(court);
                     }
                     catch (Exception ex)
@@ -63,7 +66,7 @@ namespace DribblyWebAPI.Controllers
                 }
                 else
                 {
-                    List<Court> courts = DbContext.courts.Include(c => c.photos).ToList<Court>();
+                    List<Court> courts = DbContext.Courts.Include(c => c.photos).ToList<Court>();
                     return Ok(courts);
                 }
             }
@@ -141,19 +144,21 @@ namespace DribblyWebAPI.Controllers
         }
         
         [Route("createTestData")]
-        public void createTestData()
+        public IHttpActionResult createTestData()
         {
-            using(DribblyDbContext db = new DribblyDbContext())
+            try
             {
-                db.courts.Add(
-                    new Court()
-                    {
-                        name = "",
-                        rate = 250,
-                        address = "#34 Pinaglabanan San Juan Manila",
-                        contactNo = "0932-324-1234",
-                        dateRegistered = DateTime.Now,
-                        photos = new List<CourtPhoto>() {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    db.Courts.Add(
+                        new Court()
+                        {
+                            name = "",
+                            rate = 250,
+                            address = "#34 Pinaglabanan San Juan Manila",
+                            contactNo = "0932-324-1234",
+                            dateRegistered = DateTime.Now,
+                            photos = new List<CourtPhoto>() {
                             new CourtPhoto() {
                                 fileName="1.jpg"
                             },new CourtPhoto() {
@@ -161,19 +166,19 @@ namespace DribblyWebAPI.Controllers
                             },new CourtPhoto() {
                                 fileName="3.jpg"
                             },
+                            }
                         }
-                    }
-                );
+                    );
 
-                db.courts.Add(
-                    new Court()
-                    {
-                        name = "",
-                        rate = 250,
-                        address = "#23 Pancho Villa San Juan Manila",
-                        contactNo = "0932-334-1234",
-                        dateRegistered = DateTime.Now,
-                        photos = new List<CourtPhoto>() {
+                    db.Courts.Add(
+                        new Court()
+                        {
+                            name = "",
+                            rate = 250,
+                            address = "#23 Pancho Villa San Juan Manila",
+                            contactNo = "0932-334-1234",
+                            dateRegistered = DateTime.Now,
+                            photos = new List<CourtPhoto>() {
                             new CourtPhoto() {
                                 fileName="2.jpg"
                             },new CourtPhoto() {
@@ -181,19 +186,19 @@ namespace DribblyWebAPI.Controllers
                             },new CourtPhoto() {
                                 fileName="5.jpg"
                             },
+                            }
                         }
-                    }
-                );
+                    );
 
-                db.courts.Add(
-                    new Court()
-                    {
-                        name = "",
-                        rate = 200,
-                        address = "#87 Ben Harrison St. Pio del Pilar Makati City",
-                        contactNo = "0932-334-1234",
-                        dateRegistered = DateTime.Now,
-                        photos = new List<CourtPhoto>() {
+                    db.Courts.Add(
+                        new Court()
+                        {
+                            name = "",
+                            rate = 200,
+                            address = "#87 Ben Harrison St. Pio del Pilar Makati City",
+                            contactNo = "0932-334-1234",
+                            dateRegistered = DateTime.Now,
+                            photos = new List<CourtPhoto>() {
                             new CourtPhoto() {
                                 fileName="1.jpg"
                             },new CourtPhoto() {
@@ -201,12 +206,22 @@ namespace DribblyWebAPI.Controllers
                             },new CourtPhoto() {
                                 fileName="5.jpg"
                             },
+                            }
                         }
-                    }
-                );
+                    );
 
-                db.SaveChanges();
+                    db.SaveChanges();
+
+                    return Ok("Test generated successfully!");
+
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return InternalServerError(ex);
+            }
+            
         }
     }
 }

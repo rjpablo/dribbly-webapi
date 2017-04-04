@@ -15,7 +15,10 @@ namespace DribblyWebAPI.Models
 
         public string fileName { get; set; }
 
-        //public virtual Court court { get; set; }
+        public int courtId { get; set; }
+
+        [ForeignKey("courtId")]
+        public virtual Court court { get; set; }
 
     }
 }
