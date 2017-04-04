@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +8,7 @@ namespace DribblyWebAPI.Models
 {
     public class Court
     {
+        [Key]
         public int id { get; set; }
         
         public string name { get; set; }
@@ -19,6 +21,9 @@ namespace DribblyWebAPI.Models
 
         public double rate { get; set; }
 
+        /// <summary>
+        /// The path of the primary photo.
+        /// </summary>
         public string imagePath { get; set; }
 
         public double latitude { get; set; }
@@ -33,6 +38,8 @@ namespace DribblyWebAPI.Models
         public int userId { get; set; }
 
         public DateTime dateRegistered { get; set; }
+
+        public List<CourtPhoto> photos { get; set; }
 
     }
 }

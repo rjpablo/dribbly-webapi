@@ -14,17 +14,62 @@ using Newtonsoft.Json;
 
 namespace DribblyWebAPI.Controllers
 {
+    [RoutePrefix("api/court")]
     public class CourtController : ApiController
     {
         private List<Court> courts = new List<Court>();
 
         [HttpPost]
-        public void Register(Court CourtDetails)
+        [Route("register")]
+        public IHttpActionResult Register(Court CourtDetails)
         {
-            courts.Add(CourtDetails);
-            Console.WriteLine(Request.Content);
+            try
+            {
+                DribblyDbContext DbContext = new DribblyDbContext();
+
+                DbContext.courts.Add(CourtDetails);
+
+                DbContext.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return InternalServerError();
+            }
         }
 
+        [Route("getCourtWithPhotos/{courtId:int?}")]
+        public IHttpActionResult GetCourtsWithPhotos(int courtId = -1)
+        {
+            using (DribblyDbContext DbContext = new DribblyDbContext())
+            {
+                DbContext.Configuration.LazyLoadingEnabled = false;
+                DbContext.Configuration.ProxyCreationEnabled = false;
+
+                if (courtId > -1)
+                {
+                    try
+                    {
+                        Court court = DbContext.courts.Include(c => c.photos).Single(c => c.id == courtId);
+                        return Ok(court);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return BadRequest("Court details do not exist.");
+                    }
+                }
+                else
+                {
+                    List<Court> courts = DbContext.courts.Include(c => c.photos).ToList<Court>();
+                    return Ok(courts);
+                }
+            }
+        }
+        
+        [Route("")]
         public IHttpActionResult GetCourts()
         {
             try
@@ -90,9 +135,78 @@ namespace DribblyWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex); ;
+                return InternalServerError(ex);
             }
                         
+        }
+        
+        [Route("createTestData")]
+        public void createTestData()
+        {
+            using(DribblyDbContext db = new DribblyDbContext())
+            {
+                db.courts.Add(
+                    new Court()
+                    {
+                        name = "",
+                        rate = 250,
+                        address = "#34 Pinaglabanan San Juan Manila",
+                        contactNo = "0932-324-1234",
+                        dateRegistered = DateTime.Now,
+                        photos = new List<CourtPhoto>() {
+                            new CourtPhoto() {
+                                fileName="1.jpg"
+                            },new CourtPhoto() {
+                                fileName="2.jpg"
+                            },new CourtPhoto() {
+                                fileName="3.jpg"
+                            },
+                        }
+                    }
+                );
+
+                db.courts.Add(
+                    new Court()
+                    {
+                        name = "",
+                        rate = 250,
+                        address = "#23 Pancho Villa San Juan Manila",
+                        contactNo = "0932-334-1234",
+                        dateRegistered = DateTime.Now,
+                        photos = new List<CourtPhoto>() {
+                            new CourtPhoto() {
+                                fileName="2.jpg"
+                            },new CourtPhoto() {
+                                fileName="4.jpg"
+                            },new CourtPhoto() {
+                                fileName="5.jpg"
+                            },
+                        }
+                    }
+                );
+
+                db.courts.Add(
+                    new Court()
+                    {
+                        name = "",
+                        rate = 200,
+                        address = "#87 Ben Harrison St. Pio del Pilar Makati City",
+                        contactNo = "0932-334-1234",
+                        dateRegistered = DateTime.Now,
+                        photos = new List<CourtPhoto>() {
+                            new CourtPhoto() {
+                                fileName="1.jpg"
+                            },new CourtPhoto() {
+                                fileName="3.jpg"
+                            },new CourtPhoto() {
+                                fileName="5.jpg"
+                            },
+                        }
+                    }
+                );
+
+                db.SaveChanges();
+            }
         }
     }
 }

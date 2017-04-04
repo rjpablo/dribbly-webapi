@@ -228,6 +228,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Court.cs" />
     <Compile Include="Models\CourtPhoto.cs" />
+    <Compile Include="Models\DribblyDbContext.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -275,7 +276,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
