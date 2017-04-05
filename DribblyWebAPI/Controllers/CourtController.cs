@@ -40,109 +40,129 @@ namespace DribblyWebAPI.Controllers
             }
         }
 
-        [Route("getCourtWithPhotos/{courtId:int?}")]
-        public IHttpActionResult GetCourtsWithPhotos(int courtId = -1)
-        {
-            using (ApplicationDbContext DbContext = new ApplicationDbContext())
-            {
-                DbContext.Configuration.LazyLoadingEnabled = false;
-                DbContext.Configuration.ProxyCreationEnabled = false;
-
-                DbContext.Configuration.LazyLoadingEnabled = false;
-                DbContext.Configuration.ProxyCreationEnabled = false;
-
-                if (courtId > -1)
-                {
-                    try
-                    {
-                        Court court = DbContext.Courts.Include(c => c.photos).Single(c => c.id == courtId);
-                        return Ok(court);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        return BadRequest("Court details do not exist.");
-                    }
-                }
-                else
-                {
-                    List<Court> courts = DbContext.Courts.Include(c => c.photos).ToList<Court>();
-                    return Ok(courts);
-                }
-            }
-        }
-        
-        [Route("")]
-        public IHttpActionResult GetCourts()
+        [Route("{courtId:int?}")]
+        public IHttpActionResult GetCourtsFullDetails(int courtId = -1)
         {
             try
             {
-                string imageUploadPath = WebConfigurationManager.AppSettings["imageUploadPath"];
-
-                courts.Add(new Court()
+                using (ApplicationDbContext DbContext = new ApplicationDbContext())
                 {
-                    id = 1,
-                    name = "ABC Basketball Court",
-                    description = "Just some long long long description.",
-                    address = "#123 Kanto St. Sampaloc Manila",
-                    contactNo = "0923-765-9876",
-                    rate = 100.00,
-                    imagePath = "1.jpg"
-                });
+                    DbContext.Configuration.LazyLoadingEnabled = false;
+                    DbContext.Configuration.ProxyCreationEnabled = false;
 
-                courts.Add(new Court()
-                {
-                    id = 2,
-                    name = "Monster Ballers Basketball Court",
-                    description = "Just some long long long description.",
-                    address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
-                    contactNo = "0923-765-9876",
-                    rate = 100.00,
-                    imagePath = "2.jpg"
-                });
+                    DbContext.Configuration.LazyLoadingEnabled = false;
+                    DbContext.Configuration.ProxyCreationEnabled = false;
 
-                courts.Add(new Court()
-                {
-                    id = 3,
-                    name = "Monster Ballers Basketball Court",
-                    description = "Just some long long long description.",
-                    address = "#12 Don Juan St. Brgy. Palanan, Makati City, Metro Manila",
-                    contactNo = "0923-765-9854",
-                    rate = 100.00,
-                    imagePath = "3.jpg"
-                });
-
-                courts.Add(new Court()
-                {
-                    id = 4,
-                    name = "Monster Ballers Basketball Court",
-                    description = "Just some long long long description.",
-                    address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
-                    contactNo = "0923-765-9876",
-                    rate = 100.00,
-                    imagePath = "4.jpg"
-                });
-
-                courts.Add(new Court()
-                {
-                    id = 5,
-                    name = "Monster Ballers Basketball Court",
-                    description = "Just some long long long description.",
-                    address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
-                    contactNo = "0923-765-9876",
-                    rate = 100.00,
-                    imagePath = "5.jpg"
-                });
-
-                return Ok(courts);
+                    if (courtId > -1)
+                    {
+                        try
+                        {
+                            Court court = DbContext.Courts.Include(c => c.photos).Single(c => c.id == courtId);
+                            return Ok(court);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            return BadRequest("Could not find requested court details.");
+                        }
+                    }
+                    else
+                    {
+                        List<Court> courts = DbContext.Courts.Include(c => c.photos).ToList<Court>();
+                        return Ok(courts);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
-                        
+
         }
-        
+
+        [Route("~/api/courts/{useTestData:bool?}")]
+        public IHttpActionResult GetCourts(bool useTestData = false)
+        {
+            try
+            {
+                if (!useTestData)
+                {
+                    using (ApplicationDbContext dbContext = new ApplicationDbContext())
+                    {
+                        List<Court> courts = dbContext.Courts.ToList<Court>();
+
+                        return Ok(courts);
+                    }
+                }
+                else
+                {
+                    string imageUploadPath = WebConfigurationManager.AppSettings["imageUploadPath"];
+
+                    courts.Add(new Court()
+                    {
+                        id = 1,
+                        name = "ABC Basketball Court",
+                        description = "Just some long long long description.",
+                        address = "#123 Kanto St. Sampaloc Manila",
+                        contactNo = "0923-765-9876",
+                        rate = 100.00,
+                        imagePath = "1.jpg"
+                    });
+
+                    courts.Add(new Court()
+                    {
+                        id = 2,
+                        name = "Monster Ballers Basketball Court",
+                        description = "Just some long long long description.",
+                        address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
+                        contactNo = "0923-765-9876",
+                        rate = 100.00,
+                        imagePath = "2.jpg"
+                    });
+
+                    courts.Add(new Court()
+                    {
+                        id = 3,
+                        name = "Monster Ballers Basketball Court",
+                        description = "Just some long long long description.",
+                        address = "#12 Don Juan St. Brgy. Palanan, Makati City, Metro Manila",
+                        contactNo = "0923-765-9854",
+                        rate = 100.00,
+                        imagePath = "3.jpg"
+                    });
+
+                    courts.Add(new Court()
+                    {
+                        id = 4,
+                        name = "Monster Ballers Basketball Court",
+                        description = "Just some long long long description.",
+                        address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
+                        contactNo = "0923-765-9876",
+                        rate = 100.00,
+                        imagePath = "4.jpg"
+                    });
+
+                    courts.Add(new Court()
+                    {
+                        id = 5,
+                        name = "Monster Ballers Basketball Court",
+                        description = "Just some long long long description.",
+                        address = "#12 Ben Harrison St. Brgy. Pio del Pilar, Makati City, Metro Manila",
+                        contactNo = "0923-765-9876",
+                        rate = 100.00,
+                        imagePath = "5.jpg"
+                    });
+
+                    return Ok(courts);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
+        }
+
         [Route("createTestData")]
         public IHttpActionResult createTestData()
         {
@@ -221,7 +241,7 @@ namespace DribblyWebAPI.Controllers
                 Console.WriteLine(ex.Message);
                 return InternalServerError(ex);
             }
-            
+
         }
     }
 }
