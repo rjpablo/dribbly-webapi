@@ -21,6 +21,9 @@ namespace DribblyWebAPI.Models
 
         public double rate { get; set; }
 
+        [EmailAddress]
+        public string email { get; set; }
+
         /// <summary>
         /// The path of the primary photo.
         /// </summary>

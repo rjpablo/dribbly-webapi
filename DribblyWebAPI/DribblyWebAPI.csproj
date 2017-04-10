@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201704041047011_AddedCourtPhoto.courtId.Designer.cs">
       <DependentUpon>201704041047011_AddedCourtPhoto.courtId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704060249432_addedCourtEmail.cs" />
+    <Compile Include="Migrations\201704060249432_addedCourtEmail.Designer.cs">
+      <DependentUpon>201704060249432_addedCourtEmail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -321,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704041047011_AddedCourtPhoto.courtId.resx">
       <DependentUpon>201704041047011_AddedCourtPhoto.courtId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704060249432_addedCourtEmail.resx">
+      <DependentUpon>201704060249432_addedCourtEmail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
