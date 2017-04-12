@@ -13,6 +13,9 @@ namespace DribblyWebAPI
     {
         public static void Register(HttpConfiguration config)
         {
+            //var corsAttr = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(corsAttr);
+
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
@@ -26,9 +29,6 @@ namespace DribblyWebAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            var corsAttr = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(corsAttr);
         }
     }
 }

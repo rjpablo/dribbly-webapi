@@ -80,6 +80,7 @@ namespace DribblyWebAPI.Controllers
 
         }
 
+        [Authorize]
         [Route("~/api/courts/{useTestData:bool?}")]
         public IHttpActionResult GetCourts(bool useTestData = false)
         {

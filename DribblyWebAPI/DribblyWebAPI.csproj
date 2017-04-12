@@ -49,6 +49,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin.Cors, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.3.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -237,13 +241,14 @@
       <DependentUpon>201704060249432_addedCourtEmail.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Court.cs" />
-    <Compile Include="Models\CourtPhoto.cs" />
+    <Compile Include="Models\Account\AccountBindingModels.cs" />
+    <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Courts\Court.cs" />
+    <Compile Include="Models\Courts\CourtPhoto.cs" />
     <Compile Include="Models\DribblyDbContext.cs" />
-    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\Games\Game.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -309,6 +314,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Teams\" />
     <Folder Include="Views\Court\" />
   </ItemGroup>
   <ItemGroup>
