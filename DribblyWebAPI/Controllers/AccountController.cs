@@ -30,6 +30,24 @@ namespace DribblyWebAPI.Controllers
         {
         }
 
+        [AllowAnonymous]
+        [Route("CurrentUserId")]
+        public String GetCurrentUserId()
+        {
+            try
+            {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    string currentUserId = User.Identity.GetUserId();
+                    return currentUserId;
+                }
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }            
+        }
+
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
@@ -328,7 +346,7 @@ namespace DribblyWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

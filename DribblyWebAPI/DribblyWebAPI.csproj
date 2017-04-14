@@ -240,6 +240,10 @@
     <Compile Include="Migrations\201704060249432_addedCourtEmail.Designer.cs">
       <DependentUpon>201704060249432_addedCourtEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704130643454_MadeCourt.userIdString.cs" />
+    <Compile Include="Migrations\201704130643454_MadeCourt.userIdString.Designer.cs">
+      <DependentUpon>201704130643454_MadeCourt.userIdString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
@@ -334,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704060249432_addedCourtEmail.resx">
       <DependentUpon>201704060249432_addedCourtEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704130643454_MadeCourt.userIdString.resx">
+      <DependentUpon>201704130643454_MadeCourt.userIdString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

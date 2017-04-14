@@ -38,7 +38,7 @@ namespace DribblyWebAPI.Models
         /// <summary>
         /// The id of the user who registered this court.
         /// </summary>
-        public int userId { get; set; }
+        public string userId { get; set; }
 
         public DateTime dateRegistered { get; set; }
 

@@ -35,6 +35,11 @@ namespace DribblyWebAPI.Models
     public class RegisterBindingModel
     {
         [Required]
+        [Display(Name = "Username")]
+        [StringLength(12, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string Username { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
