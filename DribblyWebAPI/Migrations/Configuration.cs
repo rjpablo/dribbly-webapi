@@ -10,6 +10,7 @@ namespace DribblyWebAPI.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DribblyWebAPI.Models.ApplicationDbContext";
         }
 
