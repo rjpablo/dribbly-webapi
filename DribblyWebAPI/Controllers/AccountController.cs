@@ -30,7 +30,6 @@ namespace DribblyWebAPI.Controllers
         {
         }
 
-        [AllowAnonymous]
         [Route("CurrentUserId")]
         public String GetCurrentUserId()
         {

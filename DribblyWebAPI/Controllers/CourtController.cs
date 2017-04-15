@@ -31,7 +31,7 @@ namespace DribblyWebAPI.Controllers
 
                 DbContext.SaveChanges();
 
-                return Ok();
+                return Ok(CourtDetails);
             }
             catch (Exception ex)
             {
